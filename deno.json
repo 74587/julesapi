@@ -1,0 +1,28 @@
+{
+  "tasks": {
+    "start": "deno run --allow-net --allow-read --allow-env main.ts",
+    "list-sources": "deno run --allow-net --allow-read --allow-env main.ts --list-sources",
+    "dev": "deno run --watch --allow-net --allow-read --allow-env main.ts",
+    "monitor": "deno run --allow-net --allow-read --allow-env monitor.ts",
+    "list-sessions": "deno run --allow-net --allow-read --allow-env monitor.ts --list",
+    "fmt": "deno fmt",
+    "lint": "deno lint",
+    "check": "deno check main.ts monitor.ts batch_tasks/*.ts"
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 80,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": false,
+    "proseWrap": "preserve"
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+  "imports": {
+    "@std/cli": "jsr:@std/cli@^1.0.0"
+  }
+}
