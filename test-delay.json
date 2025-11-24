@@ -1,0 +1,28 @@
+{
+  "apiKey": "test-key",
+  "delayBetweenTasks": 5000,
+  "parallel": true,
+  "tasks": [
+    {
+      "title": "测试任务1",
+      "prompt": "Test task 1",
+      "sourceContext": {
+        "source": "sources/github/test/repo"
+      }
+    },
+    {
+      "title": "测试任务2",
+      "prompt": "Test task 2",
+      "sourceContext": {
+        "source": "sources/github/test/repo"
+      }
+    },
+    {
+      "title": "测试任务3",
+      "prompt": "Test task 3",
+      "sourceContext": {
+        "source": "sources/github/test/repo"
+      }
+    }
+  ]
+}

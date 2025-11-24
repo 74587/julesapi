@@ -90,12 +90,40 @@ export class BatchTaskProcessor {
 
   /**
    * 并行执行所有任务
+   * 如果设置了 delayBetweenTasks，会在启动每个任务之间添加延迟
    */
   private async executeInParallel(): Promise<SessionResult[]> {
     console.log(`\n并行执行 ${this.config.tasks.length} 个任务...`);
 
-    const promises = this.config.tasks.map((task) => this.executeTask(task));
-    return await Promise.all(promises);
+    const delayTime = this.config.delayBetweenTasks || 0;
+
+    if (delayTime > 0) {
+      console.log(`任务启动间隔: ${delayTime}ms\n`);
+      
+      // 带延迟的并行执行：依次启动任务，但不等待完成
+      const promises: Promise<SessionResult>[] = [];
+      
+      for (let i = 0; i < this.config.tasks.length; i++) {
+        const task = this.config.tasks[i];
+        console.log(`[${i + 1}/${this.config.tasks.length}] 启动任务: ${task.title}`);
+        
+        // 启动任务（不等待完成）
+        promises.push(this.executeTask(task));
+        
+        // 如果不是最后一个任务，等待一段时间再启动下一个
+        if (i < this.config.tasks.length - 1) {
+          await this.delay(delayTime);
+        }
+      }
+      
+      // 等待所有任务完成
+      console.log("\n所有任务已启动，等待完成...\n");
+      return await Promise.all(promises);
+    } else {
+      // 无延迟的真正并行执行
+      const promises = this.config.tasks.map((task) => this.executeTask(task));
+      return await Promise.all(promises);
+    }
   }
 
   /**
